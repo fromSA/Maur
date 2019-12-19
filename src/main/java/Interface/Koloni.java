@@ -7,6 +7,7 @@ import Users.IUser;
 import Users.Student;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -34,10 +35,10 @@ public class Koloni {
     private Set<Book> books;
 
     public Koloni(){
-        shelves = new TreeSet<>();
-        admins = new TreeSet<>();
-        students = new TreeSet<>();
-        books = new TreeSet();
+        shelves = new HashSet<>();
+        admins = new HashSet<>();
+        students = new HashSet<>();
+        books = new HashSet<>();
     }
 
     // TODO Registry
