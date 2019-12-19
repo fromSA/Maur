@@ -9,8 +9,8 @@
         <module name="Maur" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Maur" target="1.5" />
+    <bytecodeTargetLevel target="8">
+      <module name="Maur" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
