@@ -20,7 +20,8 @@ public class KoloniTest {
         Koloni k = new Koloni();
         k.registerBook(b);
         k.registerBook(b);
-        System.out.println( k.getBooks().size());
         assertEquals(1, k.getBooks().size());
     }
+
+
 }

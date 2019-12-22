@@ -6,6 +6,7 @@ public class Shelf {
     private UUID id;
     private final int nrOfBoxes;
     private Box[] boxes;
+    private Location loc;
 
     public Shelf(int nrOfBoxes) {
         this.nrOfBoxes = nrOfBoxes;
@@ -13,6 +14,7 @@ public class Shelf {
         for (int i = 0; i < nrOfBoxes; i++) {
             boxes[i] = new Box();
         }
+        loc = new Location("høytek");
     }
 
 }

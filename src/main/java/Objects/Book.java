@@ -9,11 +9,13 @@ public class Book {
     private UUID id;
     private String title;
     private IUser owner;
+    private int isbn;
 
-    public Book(String title, IUser owner){
+    public Book(String title, IUser owner, int isbn){
         this.title = title;
         this.owner = owner;
         id = UUID.randomUUID();
+       this.isbn = isbn;
     }
 
     @Override
@@ -28,5 +30,13 @@ public class Book {
     @Override
     public int hashCode() {
         return Objects.hash(id, owner);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Integer getISBN() {
+        return isbn;
     }
 }
