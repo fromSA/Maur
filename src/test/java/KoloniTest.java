@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class KoloniTest {
     @Test
     public void shouldRegisterOneBook(){
-        Book b = new Book("Calculus", new Student());
+        int isbn = 1234;
+        Book b = new Book("Calculus", new Student(), isbn);
         Koloni k = new Koloni();
         k.registerBook(b);
         assertEquals(1, k.getBooks().size());
@@ -16,7 +17,8 @@ public class KoloniTest {
     @Test
     public void shouldRegisterUniqueBooks(){
         Student st = new Student();
-        Book b = new Book("Calculus", st);
+        int isbn = 1234;
+        Book b = new Book("Calculus", st, isbn);
         Koloni k = new Koloni();
         k.registerBook(b);
         k.registerBook(b);

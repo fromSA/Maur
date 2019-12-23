@@ -53,29 +53,30 @@ public class Koloni {
         admins.add(admin);
     }
 
-    public void registerBook(int isbn, Book book) {
+    public void registerBook(Book book) {
         BookPack pack;
-        if (books.containsKey(isbn)) {
-            pack = books.get(isbn);
+        if (books.containsKey(book.getISBN())) {
+            pack = books.get(book.getISBN());
             pack.registerBook(book);
         } else {
-            pack = new BookPack(isbn);
+            pack = new BookPack(book.getISBN());
             pack.registerBook(book);
-            books.put(isbn, pack);
+            books.put(book.getISBN(), pack);
         }
 
 
     }
-        // TODO retrieval
-        public Book takeBook (int isbn) throws BookNotFoundException {
-            if (!books.containsKey(isbn)) throw new BookNotFoundException();
-            else return books.get(isbn).takeBook(isbn);
-        }
 
-        //TODO insertion
-        public void returnBook (Book book)throws UnKnownBookException {
-            if(!books.containsKey(book.getISBN())) throw new UnKnownBookException();
-            else books.get(book.getISBN()).returnBook(book);
-        }
-
+    // TODO retrieval
+    public Book takeBook(int isbn) throws BookNotFoundException {
+        if (!books.containsKey(isbn)) throw new BookNotFoundException();
+        else return books.get(isbn).takeBook(isbn);
     }
+
+    //TODO insertion
+    public void returnBook(Book book) throws UnKnownBookException {
+        if (!books.containsKey(book.getISBN())) throw new UnKnownBookException();
+        else books.get(book.getISBN()).returnBook(book);
+    }
+
+}
