@@ -1,8 +1,10 @@
 package Interface;
 
 import Exceptions.BookNotFoundException;
+import Exceptions.UnKnownBookException;
 import Objects.Book;
 import Objects.Shelf;
+import Objects.BookPack;
 import Users.Admin;
 import Users.IUser;
 import Users.Student;
@@ -13,7 +15,7 @@ public class Koloni {
     private Set<Shelf> shelves;
     private Set<IUser> admins;
     private Set<IUser> students;
-    private HashMap<Integer,Stack<Book>> books;
+    private HashMap<Integer, BookPack> books;
 
     public Set<Shelf> getShelves() {
         return shelves;
@@ -27,11 +29,11 @@ public class Koloni {
         return students;
     }
 
-    public HashMap<Integer,Stack<Book>> getBooks() {
+    public HashMap<Integer, BookPack> getBooks() {
         return books;
     }
 
-    public Koloni(){
+    public Koloni() {
         shelves = new HashSet<>();
         admins = new HashSet<>();
         students = new HashSet<>();
@@ -39,27 +41,41 @@ public class Koloni {
     }
 
     // TODO Registry
-    public void registerShelf(Shelf shelf){
+    public void registerShelf(Shelf shelf) {
         shelves.add(shelf);
     }
-    public void registerStudent(Student student){
+
+    public void registerStudent(Student student) {
         students.add(student);
     }
-    public void registerAdmin(Admin admin){
+
+    public void registerAdmin(Admin admin) {
         admins.add(admin);
     }
-    public void registerBook(int isbn, Book book){
-        Stack<Book> l = new Stack<>();
-        if(books.containsKey(isbn)){
-            l = books.get(isbn);
-        }
-        l.push(book);
-        books.put(isbn,l);
-    }
 
-    // TODO retrieval
-    public Book takeBook(int isbn) throws BookNotFoundException {
-        if(!books.containsKey(isbn) || books.get(isbn).isEmpty()) throw new BookNotFoundException();
-        return books.get(isbn).pop();
+    public void registerBook(int isbn, Book book) {
+        BookPack pack;
+        if (books.containsKey(isbn)) {
+            pack = books.get(isbn);
+            pack.registerBook(book);
+        } else {
+            pack = new BookPack(isbn);
+            pack.registerBook(book);
+            books.put(isbn, pack);
+        }
+
+
     }
-}
+        // TODO retrieval
+        public Book takeBook (int isbn) throws BookNotFoundException {
+            if (!books.containsKey(isbn)) throw new BookNotFoundException();
+            else return books.get(isbn).takeBook(isbn);
+        }
+
+        //TODO insertion
+        public void returnBook (Book book)throws UnKnownBookException {
+            if(!books.containsKey(book.getISBN())) throw new UnKnownBookException();
+            else books.get(book.getISBN()).returnBook(book);
+        }
+
+    }
