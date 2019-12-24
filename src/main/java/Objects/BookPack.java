@@ -2,9 +2,7 @@ package Objects;
 
 import Exceptions.BookNotFoundException;
 import Exceptions.UnKnownBookException;
-
 import java.util.Stack;
-import java.util.UUID;
 
 public class BookPack {
     Stack<Book> books;

@@ -2,6 +2,7 @@ package Objects;
 
 import Users.IUser;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ public class Book {
     private String title;
     private IUser owner;
     private int isbn;
+    private List<Shelf> history;
 
     public Book(String title, IUser owner, int isbn){
         this.title = title;
@@ -38,5 +40,10 @@ public class Book {
 
     public Integer getISBN() {
         return isbn;
+    }
+
+    public List<Borrow> getHistory() {
+        //TODO
+        return null;
     }
 }

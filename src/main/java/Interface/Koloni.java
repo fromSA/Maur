@@ -2,9 +2,7 @@ package Interface;
 
 import Exceptions.BookNotFoundException;
 import Exceptions.UnKnownBookException;
-import Objects.Book;
-import Objects.Shelf;
-import Objects.BookPack;
+import Objects.*;
 import Users.Admin;
 import Users.IUser;
 import Users.Student;
@@ -63,14 +61,17 @@ public class Koloni {
             pack.registerBook(book);
             books.put(book.getISBN(), pack);
         }
-
-
     }
+
 
     // TODO retrieval
     public Book takeBook(int isbn) throws BookNotFoundException {
         if (!books.containsKey(isbn)) throw new BookNotFoundException();
         else return books.get(isbn).takeBook(isbn);
+    }
+    public Book maintainBook(int isbn) throws BookNotFoundException{
+        //TODO add a way to differ between borrowed book and maintained book
+        return takeBook(isbn);
     }
 
     //TODO insertion
@@ -78,5 +79,18 @@ public class Koloni {
         if (!books.containsKey(book.getISBN())) throw new UnKnownBookException();
         else books.get(book.getISBN()).returnBook(book);
     }
+
+    //TODO interest report
+    public List<Borrow> historyOfShelves(Book book){
+        //TODO
+        return book.getHistory();
+    }
+
+    public List<Book> StudentsHistory(Student student){
+        //TODO
+        return student.getBooksUsed();
+    }
+
+
 
 }
