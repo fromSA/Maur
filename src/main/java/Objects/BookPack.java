@@ -6,9 +6,9 @@ import java.util.Stack;
 
 public class BookPack {
     Stack<Book> books;
-    int isbn;
+    ISBN isbn;
 
-    public int getIsbn() {
+    public ISBN getIsbn() {
         return isbn;
     }
 
@@ -18,14 +18,14 @@ public class BookPack {
 
     int count;
 
-    public BookPack(int isbn) {
+    public BookPack(ISBN isbn) {
         this.books = new Stack<>();
         this.isbn = isbn;
         this.count = 0;
     }
 
-    public Book takeBook(int isbn) throws BookNotFoundException {
-        if(this.isbn != isbn || books.isEmpty()) throw new BookNotFoundException();
+    public Book takeBook(ISBN isbn) throws BookNotFoundException {
+        if(this.isbn.equals(isbn) || books.isEmpty()) throw new BookNotFoundException();
         return books.pop();
     }
 

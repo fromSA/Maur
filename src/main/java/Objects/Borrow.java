@@ -1,13 +1,14 @@
 package Objects;
 
 import Exceptions.UnKnownBookException;
+import Users.IUser;
 import Users.Student;
 
 import java.time.*;
 
 public class Borrow {
     private Book book;
-    private Student by;
+    private IUser by;
     private LocalDateTime borrowTime;
     private Shelf fromShelf;
     private Box fromBox;
@@ -20,7 +21,7 @@ public class Borrow {
         return book;
     }
 
-    public Student getBy() {
+    public IUser getBy() {
         return by;
     }
 
@@ -51,10 +52,10 @@ public class Borrow {
     public Box getToBox() {
         return toBox;
     }
-    
-    public Borrow(Book book, Student by, LocalDateTime borrowTime, Shelf fromShelf, Box fromBox) {
+
+    public Borrow(Book book, IUser by, Shelf fromShelf, Box fromBox) {
         this.by = by;
-        this.borrowTime = borrowTime;
+        this.borrowTime = LocalDateTime.now();
         this.fromShelf = fromShelf;
         this.fromBox = fromBox;
         this.book = book;

@@ -1,96 +1,67 @@
 package Interface;
 
-import Exceptions.BookNotFoundException;
-import Exceptions.UnKnownBookException;
 import Objects.*;
-import Users.Admin;
-import Users.IUser;
 import Users.Student;
+
+import java.sql.*;
 
 import java.util.*;
 
 public class Koloni {
-    private Set<Shelf> shelves;
-    private Set<IUser> admins;
-    private Set<IUser> students;
-    private HashMap<Integer, BookPack> books;
-
-    public Set<Shelf> getShelves() {
-        return shelves;
-    }
-
-    public Set<IUser> getAdmins() {
-        return admins;
-    }
-
-    public Set<IUser> getStudents() {
-        return students;
-    }
-
-    public HashMap<Integer, BookPack> getBooks() {
-        return books;
-    }
 
     public Koloni() {
-        shelves = new HashSet<>();
-        admins = new HashSet<>();
-        students = new HashSet<>();
-        books = new HashMap<>();
     }
 
-    // TODO Registry
-    public void registerShelf(Shelf shelf) {
-        shelves.add(shelf);
-    }
-
-    public void registerStudent(Student student) {
-        students.add(student);
-    }
-
-    public void registerAdmin(Admin admin) {
-        admins.add(admin);
-    }
-
-    public void registerBook(Book book) {
-        BookPack pack;
-        if (books.containsKey(book.getISBN())) {
-            pack = books.get(book.getISBN());
-            pack.registerBook(book);
-        } else {
-            pack = new BookPack(book.getISBN());
-            pack.registerBook(book);
-            books.put(book.getISBN(), pack);
+    public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:8999/mydb", "root", "root");
+            //here sonoo is database name, root is username and password
+            
+            Student student = new Student();
+            Book book = new Book("Superintelligence", student, new ISBN(978, 0, 19, 873983, 8));
+            //registerBook(book, con);
+            List<Book> books = getBooks(con);
+            for (Book b : books) {
+                System.out.println(b);
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
+    private static void registerBook(Book book, Connection con) {
+        String insertBook;
+        try {
+            insertBook = String.format("insert into Book (idBook, Title) VALUES (%d,'%s')", book.getISBN().toLong(), book.getTitle());
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(insertBook);
 
-    // TODO retrieval
-    public Book takeBook(int isbn) throws BookNotFoundException {
-        if (!books.containsKey(isbn)) throw new BookNotFoundException();
-        else return books.get(isbn).takeBook(isbn);
-    }
-    public Book maintainBook(int isbn) throws BookNotFoundException{
-        //TODO add a way to differ between borrowed book and maintained book
-        return takeBook(isbn);
-    }
-
-    //TODO insertion
-    public void returnBook(Book book) throws UnKnownBookException {
-        if (!books.containsKey(book.getISBN())) throw new UnKnownBookException();
-        else books.get(book.getISBN()).returnBook(book);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
-    //TODO interest report
-    public List<Borrow> historyOfShelves(Book book){
-        //TODO
-        return book.getHistory();
+    private static List<Book> getBooks(Connection con) {
+        List<Book> books = new ArrayList<Book>();
+        try {
+            String getAllBooks = "select * from Book";
+
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(getAllBooks);
+
+            while (rs.next()) {
+                System.out.println(rs.getString(2));
+                String title = rs.getString(2);
+                books.add(new Book(title));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return books;
     }
-
-    public List<Book> StudentsHistory(Student student){
-        //TODO
-        return student.getBooksUsed();
-    }
-
-
 
 }

@@ -37,4 +37,9 @@ public class ISBN {
     public int hashCode() {
         return Objects.hash(EAN, Group, Publisher, Title, CheckDigit);
     }
+
+    public long toLong() {
+        String s = "" + EAN + Group + Publisher + Title + CheckDigit;
+        return Long.parseLong(s,10);
+    }
 }
